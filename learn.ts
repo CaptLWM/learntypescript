@@ -93,3 +93,130 @@ const account: Account = {
   email: 'djdj@adjf.caf',
   password: '123123',
 };
+
+// 클래스에서 interface를 implement
+interface Shape {
+  getArea(): number;
+  getPerimeter(): number;
+}
+
+class Circle implements Shape {
+  constructor(private radius: number) {}
+  getArea(): number {
+    return Math.PI * Math.pow(this.radius, 2);
+  }
+  getPerimeter(): number {
+    return 2 * Math.PI * this.radius;
+  }
+}
+
+class Rectangle implements Shape {
+  constructor(private width: number, private height: number) {}
+  getArea(): number {
+    return this.width * this.height;
+  }
+  getPerimeter(): number {
+    return 2 * (this.width + this.height);
+  }
+}
+
+const circle = new Circle(4);
+const rectangle = new Rectangle(4, 6);
+
+const area = circle.getArea();
+const perimeter = rectangle.getPerimeter();
+
+// 배열타입
+const numbers: number[] = [1, 2, 3, 4, 5];
+const texts: string[] = ['hello', 'world'];
+
+interface Person {
+  name: string;
+}
+
+const people: Person[] = [{name: 'John Doe'}, {name: 'Jane Doe'}];
+
+// Type Alias : 타입에 별칭을 붙여주는 기능 => 객체의 타입 지정 및 다른타입에 별칭을 지어 줄 수도 잇음
+// 객체의 타입은 interface로도 선언할 수 있고 type으로도 선언 가능
+// 일관성있게 사용하는것이 중요
+type Person2 = {
+  name: string;
+};
+
+// 필드 추가할때는 & 사용
+type Employee = Person & {
+  job: string;
+};
+
+const employee: Employee = {
+  name: 'John Doe',
+  job: 'Programmer',
+};
+
+// Generic : 함수, 객체, 클래스 타입에서 사전에 정하지 않은 다양한 타입을 다룰 때 사용
+// 함수
+function wrap(value: any) {
+  return {value};
+}
+
+const result2 = wrap('Hello world');
+// Generic사용하지 않으면 any 사용해야함 => result 타입 추론 불가
+
+function wrap2<T>(value: T) {
+  return {value};
+}
+const result3 = wrap2('Hello world');
+
+interface Person3 {
+  name: string;
+}
+const person3: Person3 = {name: 'John Doe'};
+const result4 = wrap2(person3);
+
+// 객체
+interface Item<T> {
+  id: number;
+  data: T;
+}
+
+interface Person4 {
+  name: string;
+}
+
+interface Place {
+  location: string;
+}
+
+const personItem: Item<Person4> = {
+  id: 1,
+  data: {
+    name: 'John Doe',
+  },
+};
+
+const placeItem: Item<Place> = {
+  id: 2,
+  data: {
+    location: 'Korea',
+  },
+};
+
+// 클래스
+class Queue<T> {
+  list: T[] = [];
+  get length() {
+    return this.list.length;
+  }
+  enqueue(item: T) {
+    this.list.push(item);
+  }
+  dequeue() {
+    return this.list.shift();
+  }
+}
+
+const queue = new Queue<number>();
+queue.enqueue(0);
+queue.enqueue(1);
+const first = queue.dequeue();
+const second = queue.dequeue();
