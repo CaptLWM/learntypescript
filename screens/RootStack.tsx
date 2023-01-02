@@ -5,6 +5,7 @@ import {
 } from '@react-navigation/native-stack';
 import React from 'react';
 import {Button, Text, View} from 'react-native';
+import MainTab, {MainTabNavigationScreenParams} from './MainTab';
 
 /**
  * 타입스크립트에서 네이티브 스택 네비게이션을 사용할 때는 어떤 화면에
@@ -12,7 +13,7 @@ import {Button, Text, View} from 'react-native';
  * interface가 아닌 type 사용
  */
 type RootStackParamList = {
-  Home: undefined;
+  MainTab: MainTabNavigationScreenParams;
   Detail: {
     id: number;
   };
@@ -28,20 +29,6 @@ export type RootStackNavigationProp =
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
-function HomeScreen() {
-  const navigation = useNavigation<RootStackNavigationProp>();
-
-  const onPress = () => {
-    navigation.navigate('Detail', {id: 1});
-  };
-  return (
-    <View>
-      <Text>Home</Text>
-      <Button title="Open Detail" onPress={onPress} />
-    </View>
-  );
-}
-
 type DetailScreenRouteProp = RouteProp<RootStackParamList, 'Detail'>;
 
 function DetailScreen() {
@@ -55,7 +42,11 @@ function DetailScreen() {
 function RootStack() {
   return (
     <Stack.Navigator>
-      <Stack.Screen component={HomeScreen} name="Home" />
+      <Stack.Screen
+        component={MainTab}
+        name="MainTab"
+        options={{headerShown: false}}
+      />
       <Stack.Screen component={DetailScreen} name="Detail" />
     </Stack.Navigator>
   );
